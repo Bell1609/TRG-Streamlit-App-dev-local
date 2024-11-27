@@ -90,5 +90,8 @@
         "ydata",
         "ylabel",
         "zeroline"
+    ],
+    "python.analysis.extraPaths": [
+        "./pages"
     ]
 }
