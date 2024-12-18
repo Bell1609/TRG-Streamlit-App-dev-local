@@ -1,51 +1,3 @@
-import pyodbc
-import os
-from dotenv import load_dotenv
-import pandas as pd
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Fetch SQL connection details from .env file
-SQL_SERVER = os.getenv('SQL_SERVER')
-SQL_DATABASE = os.getenv('SQL_DATABASE')
-SQL_USERNAME = os.getenv('SQL_USERNAME')
-SQL_PASSWORD = os.getenv('SQL_PASSWORD')
-
-# Create a function to establish an ODBC connection
-def get_connection():
-    try:
-        # Create the ODBC connection string
-        connection_string = (
-            f"DRIVER={{SQL Server}};"
-            f"SERVER={SQL_SERVER};"
-            f"DATABASE={SQL_DATABASE};"
-            f"UID={SQL_USERNAME};"
-            f"PWD={SQL_PASSWORD}"
-        )
-        connection = pyodbc.connect(connection_string)
-        return connection
-    except Exception as e:
-        print(f"Error creating ODBC connection: {e}")
-        return None
-
-# Create a function to run queries and return a Pandas DataFrame
-def run_query(query):
-    connection = get_connection()
-    if connection is not None:
-        try:
-            # Execute the query and load the result into a DataFrame
-            df = pd.read_sql(query, connection)
-            connection.close()
-            return df
-        except Exception as e:
-            print(f"Error executing query: {e}")
-            return None
-    else:
-        print("Failed to establish database connection.")
-        return None
-
-'''
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
@@ -86,8 +38,7 @@ def run_query(query):
     else:
         print("Failed to create engine.")
         return None
-'''
-
+    
 '''
 # Define the query (example: listing tables in the database)
 query = """
